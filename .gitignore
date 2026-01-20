@@ -1,0 +1,37 @@
+# --- Data Files ---
+# Ignore raw data files to keep the repository size small and avoid hitting GitHub limits.
+# These files should be downloaded or generated locally using your scripts.
+data/raw/**/*.parquet
+data/raw/**/*.json
+data/processed/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+
+# --- R ---
+.Rhistory
+.RData
+.Ruserdata
+# Keep renv.lock in the repo but ignore the local library folder
+renv/library/
+renv/staging/
+
+# --- Tableau ---
+# Ignore temporary Tableau workbooks and extract backups
+*.twb~
+*.twbx~
+*.tfl~
+*.tflx~
+Worksheets/
+
+# --- System Files ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
