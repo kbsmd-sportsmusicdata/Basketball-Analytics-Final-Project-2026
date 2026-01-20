@@ -4,7 +4,7 @@ import shutil
 # ==========================================
 # ⚙️ CONFIGURATION: YOUR SPECIFIC PATH
 # ==========================================
-SOURCE_PATH = "/Users/krystalbeasley/Library/CloudStorage/GoogleDrive-hey@krystalbcreative.com/My Drive/BA Final Project:Aces"
+SOURCE_PATH = "/Users/krystalbeasley/Library/CloudStorage/GoogleDrive-hey@krystalbcreative.com/My Drive/BA Final Project/Aces"
 
 # ==========================================
 
