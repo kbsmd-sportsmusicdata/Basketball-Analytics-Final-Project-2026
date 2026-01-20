@@ -1,0 +1,58 @@
+phase,phase_num,games,wins,losses,metric,metric_key,category,weight,value
+Phase 1: Rocky Start,1,28,14,14,Off eFG%,off_efg_pct,Four Factors (Offense),0.35,0.47771883289124667
+Phase 1: Rocky Start,1,28,14,14,Off FT Rate,off_ft_rate,Four Factors (Offense),0.25,0.29602122015915117
+Phase 1: Rocky Start,1,28,14,14,Off TOV%,off_tov_pct,Four Factors (Offense),0.22,0.1569046903452787
+Phase 1: Rocky Start,1,28,14,14,Off OREB%,off_oreb_pct,Four Factors (Offense),0.18,0.2273190621814475
+Phase 1: Rocky Start,1,28,14,14,Def eFG% Allowed,def_efg_pct,Four Factors (Defense),0.35,0.5
+Phase 1: Rocky Start,1,28,14,14,Def FT Rate Allowed,def_ft_rate,Four Factors (Defense),0.25,0.2577639751552795
+Phase 1: Rocky Start,1,28,14,14,Def TOV% Forced,def_tov_pct,Four Factors (Defense),0.22,0.1578165614556257
+Phase 1: Rocky Start,1,28,14,14,Def OREB% Allowed,def_oreb_pct,Four Factors (Defense),0.18,0.25922023182297155
+Phase 1: Rocky Start,1,28,14,14,ORtg,ortg,Efficiency,,99.97701677775224
+Phase 1: Rocky Start,1,28,14,14,DRtg,drtg,Efficiency,,103.0891376231146
+Phase 1: Rocky Start,1,28,14,14,Net Rating,net_rtg,Efficiency,,-3.1121208453623552
+Phase 1: Rocky Start,1,28,14,14,Pace,pace_avg,Style,,80.79714285714286
+Phase 1: Rocky Start,1,28,14,14,TS%,ts_pct,Shooting,,0.5308563167677375
+Phase 1: Rocky Start,1,28,14,14,3P%,fg3_pct,Shooting,,0.3219858156028369
+Phase 1: Rocky Start,1,28,14,14,AST/TOV,ast_tov_ratio,Ball Movement,,1.4
+Phase 1: Rocky Start,1,28,14,14,PPG,ppg,Scoring,,80.78571428571429
+Phase 1: Rocky Start,1,28,14,14,% Pts Paint,pct_pts_paint,Scoring Mix,,0.3978779840848806
+Phase 1: Rocky Start,1,28,14,14,% Pts 3PT,pct_pts_3pt,Scoring Mix,,0.3010610079575597
+Phase 1: Rocky Start,1,28,14,14,% Pts FT,pct_pts_ft,Scoring Mix,,0.20380194518125552
+Phase 2: Winning Streak,2,16,16,0,Off eFG%,off_efg_pct,Four Factors (Offense),0.35,0.5545871559633028
+Phase 2: Winning Streak,2,16,16,0,Off FT Rate,off_ft_rate,Four Factors (Offense),0.25,0.23394495412844038
+Phase 2: Winning Streak,2,16,16,0,Off TOV%,off_tov_pct,Four Factors (Offense),0.22,0.13718528082633957
+Phase 2: Winning Streak,2,16,16,0,Off OREB%,off_oreb_pct,Four Factors (Offense),0.18,0.24906367041198502
+Phase 2: Winning Streak,2,16,16,0,Def eFG% Allowed,def_efg_pct,Four Factors (Defense),0.35,0.46831955922865015
+Phase 2: Winning Streak,2,16,16,0,Def FT Rate Allowed,def_ft_rate,Four Factors (Defense),0.25,0.21854912764003673
+Phase 2: Winning Streak,2,16,16,0,Def TOV% Forced,def_tov_pct,Four Factors (Defense),0.22,0.15498673824817052
+Phase 2: Winning Streak,2,16,16,0,Def OREB% Allowed,def_oreb_pct,Four Factors (Defense),0.18,0.24682395644283123
+Phase 2: Winning Streak,2,16,16,0,ORtg,ortg,Efficiency,,114.4286636539703
+Phase 2: Winning Streak,2,16,16,0,DRtg,drtg,Efficiency,,97.46588693957115
+Phase 2: Winning Streak,2,16,16,0,Net Rating,net_rtg,Efficiency,,16.962776714399155
+Phase 2: Winning Streak,2,16,16,0,Pace,pace_avg,Style,,77.84125
+Phase 2: Winning Streak,2,16,16,0,TS%,ts_pct,Shooting,,0.5897521211112959
+Phase 2: Winning Streak,2,16,16,0,3P%,fg3_pct,Shooting,,0.3995381062355658
+Phase 2: Winning Streak,2,16,16,0,AST/TOV,ast_tov_ratio,Ball Movement,,2.1411764705882352
+Phase 2: Winning Streak,2,16,16,0,PPG,ppg,Scoring,,88.625
+Phase 2: Winning Streak,2,16,16,0,% Pts Paint,pct_pts_paint,Scoring Mix,,0.35825105782792666
+Phase 2: Winning Streak,2,16,16,0,% Pts 3PT,pct_pts_3pt,Scoring Mix,,0.36600846262341324
+Phase 2: Winning Streak,2,16,16,0,% Pts FT,pct_pts_ft,Scoring Mix,,0.1473906911142454
+Phase 3: Playoffs,3,12,9,3,Off eFG%,off_efg_pct,Four Factors (Offense),0.35,0.528554070473876
+Phase 3: Playoffs,3,12,9,3,Off FT Rate,off_ft_rate,Four Factors (Offense),0.25,0.29526123936816523
+Phase 3: Playoffs,3,12,9,3,Off TOV%,off_tov_pct,Four Factors (Offense),0.22,0.13196964698119432
+Phase 3: Playoffs,3,12,9,3,Off OREB%,off_oreb_pct,Four Factors (Offense),0.18,0.22110552763819097
+Phase 3: Playoffs,3,12,9,3,Def eFG% Allowed,def_efg_pct,Four Factors (Defense),0.35,0.4932762836185819
+Phase 3: Playoffs,3,12,9,3,Def FT Rate Allowed,def_ft_rate,Four Factors (Defense),0.25,0.28484107579462103
+Phase 3: Playoffs,3,12,9,3,Def TOV% Forced,def_tov_pct,Four Factors (Defense),0.22,0.1699913980256421
+Phase 3: Playoffs,3,12,9,3,Def OREB% Allowed,def_oreb_pct,Four Factors (Defense),0.18,0.27989821882951654
+Phase 3: Playoffs,3,12,9,3,ORtg,ortg,Efficiency,,109.59666776641373
+Phase 3: Playoffs,3,12,9,3,DRtg,drtg,Efficiency,,101.48281653217548
+Phase 3: Playoffs,3,12,9,3,Net Rating,net_rtg,Efficiency,,8.113851234238254
+Phase 3: Playoffs,3,12,9,3,Pace,pace_avg,Style,,81.10166666666667
+Phase 3: Playoffs,3,12,9,3,TS%,ts_pct,Shooting,,0.5715545423262216
+Phase 3: Playoffs,3,12,9,3,3P%,fg3_pct,Shooting,,0.3794466403162055
+Phase 3: Playoffs,3,12,9,3,AST/TOV,ast_tov_ratio,Ball Movement,,1.96875
+Phase 3: Playoffs,3,12,9,3,PPG,ppg,Scoring,,88.58333333333333
+Phase 3: Playoffs,3,12,9,3,% Pts Paint,pct_pts_paint,Scoring Mix,,0.4233301975540922
+Phase 3: Playoffs,3,12,9,3,% Pts 3PT,pct_pts_3pt,Scoring Mix,,0.270931326434619
+Phase 3: Playoffs,3,12,9,3,% Pts FT,pct_pts_ft,Scoring Mix,,0.18156161806208843

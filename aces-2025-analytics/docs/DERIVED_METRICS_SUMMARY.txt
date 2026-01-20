@@ -1,0 +1,257 @@
+═══════════════════════════════════════════════════════════════════
+DERIVED METRICS SUMMARY & BUSINESS CONTEXT
+Las Vegas Aces Player Profiles - 20 New Metrics Added
+═══════════════════════════════════════════════════════════════════
+
+TOTAL DATASET: 66 columns (47 original + 19 new metrics + 1 archetype)
+PLAYERS: 8 (Top rotation)
+
+═══════════════════════════════════════════════════════════════════
+TIER 1: COMPOSITE RATINGS (Portfolio Headlines)
+═══════════════════════════════════════════════════════════════════
+
+1. STAR RATING (0-100)
+   - Formula: 40% impact + 30% efficiency + 20% usage + 10% availability
+   - Business value: Single number to rank players
+   - Use case: Contract negotiations, trade value, lineup optimization
+   - Top 3: A'ja Wilson (96.0), Jackie Young (84.6), Chelsea Gray (62.2)
+
+2. TWO-WAY RATING
+   - Formula: OffRtg - DefRtg
+   - Business value: Identifies complete players (offense + defense)
+   - Use case: Starter evaluation, all-star selection
+   - Top 3: NaLyssa Smith (11.3), A'ja Wilson (11.1), Jackie Young (7.9)
+
+3. EFFICIENCY SCORE
+   - Formula: TS% × USG% × 100
+   - Business value: Rewards high-volume efficient scorers
+   - Use case: Prop betting (over/under scoring), usage allocation
+   - Top 3: A'ja Wilson (18.3), Jackie Young (14.0), Chelsea Gray (9.6)
+
+═══════════════════════════════════════════════════════════════════
+TIER 2: OFFENSIVE METRICS (Scoring & Playmaking)
+═══════════════════════════════════════════════════════════════════
+
+4. OFFENSIVE LOAD
+   - Formula: USG% + (AST% × 0.5)
+   - Business value: Total offensive responsibility
+   - Use case: Fatigue management, load balancing, injury risk
+   - Leaders: A'ja Wilson (0.4), Jackie Young (0.4)
+
+5. OFFENSIVE IMPACT
+   - Formula: ortg_diff (team ORtg when ON vs OFF)
+   - Business value: How much player boosts team scoring
+   - Use case: Lineup optimization, clutch situations
+   - Leaders: A'ja Wilson (+19.6), Chelsea Gray (+19.6), Jackie Young (+14.3)
+
+6. TRUE USAGE
+   - Formula: USG% + (AST% × 0.33)
+   - Business value: Captures scoring AND playmaking touches
+   - Use case: More accurate usage than USG% alone
+   - Leaders: A'ja Wilson, Jackie Young, Chelsea Gray
+
+7. PLAYMAKING EFFICIENCY
+   - Formula: AST% / (AST% + TOV_Ratio)
+   - Business value: Clean playmaking rate (assists vs turnovers)
+   - Use case: Point guard evaluation, ball-handling trust
+   - Leaders: Guards with high AST%, low TOV%
+
+═══════════════════════════════════════════════════════════════════
+TIER 3: DEFENSIVE & REBOUNDING METRICS
+═══════════════════════════════════════════════════════════════════
+
+8. DEFENSIVE IMPACT
+   - Formula: -drtg_diff (flipped so positive = good)
+   - Business value: How much player improves team defense
+   - Use case: Defensive stopper identification, matchup planning
+   - Leaders: A'ja Wilson (+9.8), Kierstan Bell (+8.5), Jackie Young (+8.2)
+
+9. REBOUNDING IMPACT
+   - Formula: REB% × mpg / 10
+   - Business value: Total rebounding contribution (rate × volume)
+   - Use case: Second-chance point prevention/creation
+   - Leaders: Bigs with high REB% and high minutes
+
+═══════════════════════════════════════════════════════════════════
+TIER 4: ROLE & USAGE METRICS
+═══════════════════════════════════════════════════════════════════
+
+10. IMPACT PER 36
+    - Formula: net_rtg_diff × (36 / mpg)
+    - Business value: Normalized impact metric (per-36 standard)
+    - Use case: Fair comparison across different minute allocations
+    - Leaders: A'ja Wilson (32.6), Jackie Young (25.8)
+
+11. MINUTES LEVERAGE
+    - Formula: mpg / team_avg_mpg (30 min baseline)
+    - Business value: How much team relies on player
+    - Use case: Rotation planning, rest management
+    - Leaders: Starters with 30+ mpg
+
+12. ROLE CLARITY
+    - Formula: max(USG%, AST%, REB%) / sum(all three)
+    - Business value: How specialized vs versatile player is
+    - Use case: Roster construction, lineup fit
+    - High = Specialists, Low = Swiss Army Knife players
+
+13. VERSATILITY SCORE
+    - Formula: 1 - role_clarity
+    - Business value: How well-rounded the player is
+    - Use case: Small-ball lineups, positionless basketball
+    - Leaders: Players balanced across scoring/passing/rebounding
+
+═══════════════════════════════════════════════════════════════════
+TIER 5: TEAM CONTRIBUTION METRICS
+═══════════════════════════════════════════════════════════════════
+
+14. WIN CONTRIBUTION
+    - Formula: (mpg / 48) × win_pct × 100
+    - Business value: Minutes-weighted winning impact
+    - Use case: Contract year performance, MVP candidacy
+    - Leaders: High-minute players on winning teams
+
+15. AVAILABILITY
+    - Formula: games_count / max_games
+    - Business value: Durability percentage
+    - Use case: Contract reliability, injury history evaluation
+    - Range: 0.696 to 1.0 (39-56 games of 56 possible)
+
+═══════════════════════════════════════════════════════════════════
+TIER 6: CATEGORICAL CLASSIFICATIONS
+═══════════════════════════════════════════════════════════════════
+
+16. TWO_WAY_TIER
+    - Categories: Elite, Good, Average, Below Average
+    - Based on: two_way_rating thresholds
+
+17. IMPACT_TIER
+    - Categories: Elite, Positive, Neutral, Negative
+    - Based on: net_rtg_diff thresholds
+
+18. STAR_TIER
+    - Categories: Star, Key Player, Contributor, Role Player
+    - Based on: star_rating quartiles
+
+19. OFFENSIVE_LOAD_TIER
+    - Categories: Elite, High, Medium, Low
+    - Based on: offensive_load distribution
+
+20. ARCHETYPE (Most Important for Storytelling!)
+    - Categories:
+      • Elite Scorer (high USG, high TS%)
+      • Volume Scorer (high USG, lower TS%)
+      • Primary Ball Handler (high AST, high USG)
+      • Facilitator (high AST, lower USG)
+      • Two-Way Wing (balanced USG, good defense)
+      • Efficient Big (high REB, high TS%)
+      • Paint Presence (high REB)
+      • Role Player (balanced/complementary)
+    
+    Current Distribution:
+    - Role Player: 4 (Dana Evans, Jewell Loyd, Kierstan Bell, Aaliyah Nye)
+    - Efficient Big: 1 (A'ja Wilson)
+    - Facilitator: 1 (Chelsea Gray)
+    - Primary Ball Handler: 1 (Jackie Young)
+    - Two-Way Wing: 1 (Kierstan Bell)
+
+═══════════════════════════════════════════════════════════════════
+BUSINESS APPLICATIONS BY STAKEHOLDER
+═══════════════════════════════════════════════════════════════════
+
+FOR COACHES:
+- Star Rating → Determine closing lineup
+- Two-Way Rating → Identify complete players
+- Offensive/Defensive Impact → Optimize lineups for specific matchups
+- Minutes Leverage → Manage fatigue and rest
+- Archetype → Role clarity and fit
+
+FOR GENERAL MANAGERS:
+- Star Rating → Contract value negotiation
+- Availability → Durability and injury risk
+- Win Contribution → MVP/All-Star evaluation
+- Impact Per 36 → Hidden gems (low minutes, high impact)
+- Versatility Score → Roster construction flexibility
+
+FOR SPORTS BETTING (PrizePicks, Underdog):
+- Efficiency Score → Over/under scoring props
+- Offensive Load → Usage-dependent scoring lines
+- Playmaking Efficiency → Assist props
+- Rebounding Impact → Rebound props
+- Impact Per 36 → Backup player opportunities
+
+FOR PLAYER DEVELOPMENT:
+- Role Clarity vs Versatility → Skill development priorities
+- Two-Way Rating → Areas for improvement
+- Offensive Load → Usage allocation decisions
+- Archetype → Player comps and development path
+
+═══════════════════════════════════════════════════════════════════
+TOP INSIGHTS FROM THE DATA
+═══════════════════════════════════════════════════════════════════
+
+ELITE TIER (Star Rating 75+):
+- A'ja Wilson (96.0) - Clear superstar, elite in all areas
+- Jackie Young (84.6) - Two-way guard, efficient high-usage scorer
+
+KEY PLAYERS (Star Rating 50-75):
+- Chelsea Gray (62.2) - Floor general, facilitator role
+- NaLyssa Smith (57.0) - Efficient big, strong two-way rating
+
+CONTRIBUTORS (Star Rating 25-50):
+- Jewell Loyd (45.3) - Role player, moderate impact
+- Dana Evans (28.7) - Specialist guard
+- Kierstan Bell (29.0) - Two-way wing, defensive specialist
+
+DEVELOPING (Star Rating <25):
+- Aaliyah Nye (10.5) - Rookie, limited role
+
+MOST IMPACTFUL PLAYERS (Net Rating Differential):
+1. A'ja Wilson (+29.3) - Team is 29 points better per 100 with her
+2. Jackie Young (+22.5) - Elite two-way impact
+3. Chelsea Gray (+13.2) - Playmaking engine
+
+DEFENSIVE ANCHORS (Defensive Impact):
+1. A'ja Wilson (+9.8) - Rim protection
+2. Kierstan Bell (+8.5) - Perimeter defense
+3. Jackie Young (+8.2) - Versatile defender
+
+HIGH-LEVERAGE PLAYERS (Minutes + Impact):
+- A'ja Wilson, Chelsea Gray, Jackie Young (all 30+ mpg with elite impact)
+
+═══════════════════════════════════════════════════════════════════
+PORTFOLIO PRESENTATION TIPS
+═══════════════════════════════════════════════════════════════════
+
+Use these metrics to tell different stories:
+
+STORY 1: "Identifying Elite Talent"
+- Focus on: Star Rating, Two-Way Rating, Impact metrics
+- Insight: A'ja is generational, Jackie is rising star
+
+STORY 2: "Role Optimization"
+- Focus on: Archetype, Offensive Load, Role Clarity
+- Insight: Chelsea and Jackie can handle high offensive load
+
+STORY 3: "Defensive Value"
+- Focus on: Defensive Impact, Two-Way Rating
+- Insight: 3 players provide elite defensive value
+
+STORY 4: "Lineup Efficiency"
+- Focus on: On/Off splits, Impact Per 36
+- Insight: Team struggles significantly without A'ja (-16.9 NetRtg off)
+
+STORY 5: "Roster Construction"
+- Focus on: Availability, Win Contribution, Versatility
+- Insight: Core 3 (A'ja, Jackie, Chelsea) are durable and versatile
+
+═══════════════════════════════════════════════════════════════════
+FILES DELIVERED
+═══════════════════════════════════════════════════════════════════
+
+✓ aces_player_profiles_final_2025.csv (66 columns, 8 players)
+✓ add_derived_metrics.py (reproducible script)
+✓ TABLEAU_GUIDE.md (comprehensive Tableau instructions)
+✓ TABLEAU_PERCENTILE_QUICK_REF.txt (copy-paste formulas)
+✓ TABLEAU_BAR_CHART_GUIDE.txt (step-by-step chart building)
+
+Ready to connect to Tableau and build!

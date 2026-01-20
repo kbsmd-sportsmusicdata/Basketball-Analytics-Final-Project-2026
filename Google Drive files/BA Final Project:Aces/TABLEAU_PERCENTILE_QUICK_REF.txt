@@ -1,0 +1,77 @@
+TABLEAU PERCENTILE RANKS - QUICK REFERENCE CARD
+===============================================
+
+Copy-paste these formulas into Tableau calculated fields.
+Right-click Data pane → Create Calculated Field → Paste formula → OK
+
+# ESSENTIAL PERCENTILE RANKS (Build These First)
+# ===============================================
+
+Star Rating Percentile:
+RANK_PERCENTILE(SUM([star_rating]))
+
+Two-Way Rating Percentile:
+RANK_PERCENTILE(SUM([two_way_rating]))
+
+TS% Percentile:
+RANK_PERCENTILE(SUM([TS%]))
+
+Usage% Percentile:
+RANK_PERCENTILE(SUM([USG%]))
+
+NetRtg Diff Percentile:
+RANK_PERCENTILE(SUM([net_rtg_diff]))
+
+# IMPACT PERCENTILES
+# ===============================================
+
+Offensive Impact Percentile:
+RANK_PERCENTILE(SUM([offensive_impact]))
+
+Defensive Impact Percentile:
+RANK_PERCENTILE(SUM([defensive_impact]))
+
+Efficiency Score Percentile:
+RANK_PERCENTILE(SUM([efficiency_score]))
+
+# PLAYMAKING & REBOUNDING
+# ===============================================
+
+AST% Percentile:
+RANK_PERCENTILE(SUM([AST%]))
+
+REB% Percentile:
+RANK_PERCENTILE(SUM([REB%]))
+
+# PERCENTILE LABEL (for visualization)
+# ===============================================
+
+Percentile Label:
+IF [Star Rating Percentile] >= 0.90 THEN "Elite (90th+)"
+ELSEIF [Star Rating Percentile] >= 0.75 THEN "Great (75-89th)"
+ELSEIF [Star Rating Percentile] >= 0.50 THEN "Above Avg (50-74th)"
+ELSEIF [Star Rating Percentile] >= 0.25 THEN "Average (25-49th)"
+ELSE "Below Avg (<25th)"
+END
+
+# PERCENTILE AS TEXT (shows "87th")
+# ===============================================
+
+Percentile Text:
+STR(ROUND([Star Rating Percentile] * 100, 0)) + "th"
+
+# COLOR CODING FORMULA
+# ===============================================
+
+Percentile Color:
+IF [Star Rating Percentile] >= 0.75 THEN "Green"
+ELSEIF [Star Rating Percentile] >= 0.50 THEN "Yellow"
+ELSE "Red"
+END
+
+# NOTES
+# ===============================================
+- RANK_PERCENTILE returns 0-1 (multiply by 100 for percentage)
+- Higher percentile = better (except for DefRtg, TOV%)
+- With 8 players, percentiles are: 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0
+- For portfolio, expand to league-wide data for meaningful percentiles

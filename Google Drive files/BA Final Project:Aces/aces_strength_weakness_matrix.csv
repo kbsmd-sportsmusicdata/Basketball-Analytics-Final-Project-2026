@@ -1,0 +1,89 @@
+player_name,metric_display,percentile,percentile_tier,is_elite,is_weakness,color_value,tier_numeric
+A'ja Wilson,PER,100,Elite (90+),True,False,100,5
+A'ja Wilson,Win Shares,100,Elite (90+),True,False,100,5
+A'ja Wilson,TS%,89,Above Avg (75-89),False,False,89,4
+A'ja Wilson,AST%,100,Elite (90+),True,False,100,5
+A'ja Wilson,TOV%,95,Elite (90+),True,False,95,5
+A'ja Wilson,TREB%,93,Elite (90+),True,False,93,5
+A'ja Wilson,STL%,95,Elite (90+),True,False,95,5
+A'ja Wilson,BLK%,88,Above Avg (75-89),False,False,88,4
+A'ja Wilson,Def Rating,94,Elite (90+),True,False,94,5
+A'ja Wilson,3PT Rate,35,Below Avg (25-49),False,False,35,2
+A'ja Wilson,FT%,75,Above Avg (75-89),False,False,75,4
+Jackie Young,PER,100,Elite (90+),True,False,100,5
+Jackie Young,Win Shares,98,Elite (90+),True,False,98,5
+Jackie Young,TS%,94,Elite (90+),True,False,94,5
+Jackie Young,AST%,85,Above Avg (75-89),False,False,85,4
+Jackie Young,TOV%,78,Above Avg (75-89),False,False,78,4
+Jackie Young,TREB%,70,Average (50-74),False,False,70,3
+Jackie Young,STL%,72,Average (50-74),False,False,72,3
+Jackie Young,BLK%,45,Below Avg (25-49),False,False,45,2
+Jackie Young,Def Rating,60,Average (50-74),False,False,60,3
+Jackie Young,3PT Rate,43,Below Avg (25-49),False,False,43,2
+Jackie Young,FT%,91,Elite (90+),True,False,91,5
+Chelsea Gray,PER,67,Average (50-74),False,False,67,3
+Chelsea Gray,Win Shares,74,Average (50-74),False,False,74,3
+Chelsea Gray,TS%,82,Above Avg (75-89),False,False,82,4
+Chelsea Gray,AST%,89,Above Avg (75-89),False,False,89,4
+Chelsea Gray,TOV%,16,Weakness (<25),False,True,16,1
+Chelsea Gray,TREB%,38,Below Avg (25-49),False,False,38,2
+Chelsea Gray,STL%,55,Average (50-74),False,False,55,3
+Chelsea Gray,BLK%,30,Below Avg (25-49),False,False,30,2
+Chelsea Gray,Def Rating,52,Average (50-74),False,False,52,3
+Chelsea Gray,3PT Rate,48,Below Avg (25-49),False,False,48,2
+Chelsea Gray,FT%,85,Above Avg (75-89),False,False,85,4
+Jewell Loyd,PER,53,Average (50-74),False,False,53,3
+Jewell Loyd,Win Shares,65,Average (50-74),False,False,65,3
+Jewell Loyd,TS%,49,Below Avg (25-49),False,False,49,2
+Jewell Loyd,AST%,18,Weakness (<25),False,True,18,1
+Jewell Loyd,TOV%,93,Elite (90+),True,False,93,5
+Jewell Loyd,TREB%,45,Below Avg (25-49),False,False,45,2
+Jewell Loyd,STL%,48,Below Avg (25-49),False,False,48,2
+Jewell Loyd,BLK%,35,Below Avg (25-49),False,False,35,2
+Jewell Loyd,Def Rating,46,Below Avg (25-49),False,False,46,2
+Jewell Loyd,3PT Rate,77,Above Avg (75-89),False,False,77,4
+Jewell Loyd,FT%,72,Average (50-74),False,False,72,3
+NaLyssa Smith,PER,30,Below Avg (25-49),False,False,30,2
+NaLyssa Smith,Win Shares,42,Below Avg (25-49),False,False,42,2
+NaLyssa Smith,TS%,52,Average (50-74),False,False,52,3
+NaLyssa Smith,AST%,4,Weakness (<25),False,True,4,1
+NaLyssa Smith,TOV%,65,Average (50-74),False,False,65,3
+NaLyssa Smith,TREB%,61,Average (50-74),False,False,61,3
+NaLyssa Smith,STL%,13,Weakness (<25),False,True,13,1
+NaLyssa Smith,BLK%,75,Above Avg (75-89),False,False,75,4
+NaLyssa Smith,Def Rating,55,Average (50-74),False,False,55,3
+NaLyssa Smith,3PT Rate,16,Weakness (<25),False,True,16,1
+NaLyssa Smith,FT%,6,Weakness (<25),False,True,6,1
+Dana Evans,PER,27,Below Avg (25-49),False,False,27,2
+Dana Evans,Win Shares,35,Below Avg (25-49),False,False,35,2
+Dana Evans,TS%,19,Weakness (<25),False,True,19,1
+Dana Evans,AST%,45,Below Avg (25-49),False,False,45,2
+Dana Evans,TOV%,82,Above Avg (75-89),False,False,82,4
+Dana Evans,TREB%,4,Weakness (<25),False,True,4,1
+Dana Evans,STL%,11,Weakness (<25),False,True,11,1
+Dana Evans,BLK%,15,Weakness (<25),False,True,15,1
+Dana Evans,Def Rating,30,Below Avg (25-49),False,False,30,2
+Dana Evans,3PT Rate,55,Average (50-74),False,False,55,3
+Dana Evans,FT%,23,Weakness (<25),False,True,23,1
+Kierstan Bell,PER,14,Weakness (<25),False,True,14,1
+Kierstan Bell,Win Shares,7,Weakness (<25),False,True,7,1
+Kierstan Bell,TS%,3,Weakness (<25),False,True,3,1
+Kierstan Bell,AST%,9,Weakness (<25),False,True,9,1
+Kierstan Bell,TOV%,91,Elite (90+),True,False,91,5
+Kierstan Bell,TREB%,16,Weakness (<25),False,True,16,1
+Kierstan Bell,STL%,35,Below Avg (25-49),False,False,35,2
+Kierstan Bell,BLK%,40,Below Avg (25-49),False,False,40,2
+Kierstan Bell,Def Rating,21,Weakness (<25),False,True,21,1
+Kierstan Bell,3PT Rate,93,Elite (90+),True,False,93,5
+Kierstan Bell,FT%,45,Below Avg (25-49),False,False,45,2
+Aaliyah Nye,PER,5,Weakness (<25),False,True,5,1
+Aaliyah Nye,Win Shares,13,Weakness (<25),False,True,13,1
+Aaliyah Nye,TS%,10,Weakness (<25),False,True,10,1
+Aaliyah Nye,AST%,7,Weakness (<25),False,True,7,1
+Aaliyah Nye,TOV%,55,Average (50-74),False,False,55,3
+Aaliyah Nye,TREB%,18,Weakness (<25),False,True,18,1
+Aaliyah Nye,STL%,8,Weakness (<25),False,True,8,1
+Aaliyah Nye,BLK%,20,Weakness (<25),False,True,20,1
+Aaliyah Nye,Def Rating,25,Below Avg (25-49),False,False,25,2
+Aaliyah Nye,3PT Rate,98,Elite (90+),True,False,98,5
+Aaliyah Nye,FT%,81,Above Avg (75-89),False,False,81,4

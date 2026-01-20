@@ -1,0 +1,9 @@
+player_name,position,position_group,archetype,mpg,PER_pctile_pos,win_shares_pctile_pos,ts_pct_pctile_pos,AST_pct_pctile_pos,TOV_pct_pctile_pos,TREB_pct_pctile_pos,STL_pct_pctile_pos,BLK_pct_pctile_pos,player_def_rtg_pctile_pos,three_pt_rate_pctile_pos,FT_pct_pctile_pos,elite_count,improvement_count,elite_skills,improvement_areas
+A'ja Wilson,F,C,Generational Talent,32.31,100,100,89,100,95,93,95,88,94,35,75,7,0,"PER, AST%, TOV%, TREB%, STL%, player_def_rtg, win_shares",None
+Jackie Young,G,G,Elite Two-Way Star,31.39,100,98,94,85,78,70,72,45,60,43,91,4,0,"PER, ts_pct, win_shares, FT%",None
+Chelsea Gray,G,G,Primary Ball Handler,32.14,67,74,82,89,16,38,55,30,52,48,85,0,1,None,TOV%
+Jewell Loyd,G,G,Ball Security Specialist,28.55,53,65,49,18,93,45,48,35,46,77,72,1,1,TOV%,AST%
+NaLyssa Smith,F,F,Paint Presence,22.82,30,42,52,4,65,61,13,75,55,16,6,0,4,None,"AST%, STL%, 3p_rate, FT%"
+Dana Evans,G,G,Role Player,18.23,27,35,19,45,82,4,11,15,30,55,23,0,4,None,"ts_pct, TREB%, STL%, FT%"
+Kierstan Bell,G-F,F,Stretch Forward,11.79,14,7,3,9,91,16,35,40,21,93,45,2,6,"TOV%, 3p_rate","PER, ts_pct, AST%, TREB%, player_def_rtg, win_shares"
+Aaliyah Nye,G-F,G,3PT Specialist,13.78,5,13,10,7,55,18,8,20,25,98,81,1,5,3p_rate,"PER, ts_pct, AST%, STL%, win_shares"

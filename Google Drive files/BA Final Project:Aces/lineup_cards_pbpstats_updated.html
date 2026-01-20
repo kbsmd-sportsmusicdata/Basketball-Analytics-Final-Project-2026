@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Vegas Aces - Lineup Configuration Cards (PBPSTATS DATA)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .page {
+            width: 10in;
+            min-height: 7.5in;
+            background: white;
+            margin: 0 auto 40px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            page-break-after: always;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C8102E 0%, #8B0000 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+        
+        .data-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .lineup-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            padding: 12px 16px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .net-rating {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 15px;
+            background: white;
+        }
+        
+        .usage-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .players-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .player-chip {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .player-chip.star {
+            background: #FFF3CD;
+            border-color: #FDB927;
+        }
+        
+        .player-chip.defensive {
+            background: #CCE5FF;
+            border-color: #007bff;
+        }
+        
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 8px 4px;
+            border-radius: 6px;
+        }
+        
+        .metric-box.offense {
+            background: #d4edda;
+        }
+        
+        .metric-box.defense {
+            background: #cce5ff;
+        }
+        
+        .metric-box.minutes {
+            background: #f8f9fa;
+        }
+        
+        .metric-box.sample {
+            background: #fff3cd;
+        }
+        
+        .metric-label {
+            font-size: 9px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-value {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        
+        .metric-box.offense .metric-value { color: #28a745; }
+        .metric-box.defense .metric-value { color: #007bff; }
+        .metric-box.minutes .metric-value { color: #6c757d; }
+        .metric-box.sample .metric-value { color: #856404; }
+        
+        .insight-box {
+            margin-top: 10px;
+            padding: 8px 10px;
+            background: #f8f9fa;
+            border-left: 3px solid #6c757d;
+            font-size: 10px;
+            color: #555;
+        }
+        
+        .insight-box.positive {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .insight-box.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        /* Color schemes for different lineups */
+        .championship .card-header { background: linear-gradient(135deg, #C8102E 0%, #8B0000 100%); }
+        .defensive .card-header { background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%); }
+        .offensive .card-header { background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%); }
+        .twinTowers .card-header { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
+        .smallBall .card-header { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+        .pace .card-header { background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); }
+        
+        .fifth-card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Lineup Cards -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>🏀 Las Vegas Aces Lineup Configurations</h1>
+                <div class="subtitle">2025 Season | Optimized with pbpstats.com Data</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="data-badge">📊 PBPSTATS VERIFIED</div>
+                <div class="subtitle" style="margin-top: 5px;">39-17 Record</div>
+            </div>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Championship Closing -->
+            <div class="lineup-card championship">
+                <div class="card-header">
+                    <h3>Championship Closing</h3>
+                    <div class="net-rating">+14.3</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">🏆 Final 6 minutes, within 8 points</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson</span>
+                        <span class="player-chip star">Young</span>
+                        <span class="player-chip star">Gray</span>
+                        <span class="player-chip defensive">Bell</span>
+                        <span class="player-chip">Smith</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">115.1</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">100.8</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Core 3 Min</div>
+                            <div class="metric-value">9,460</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">Proven</div>
+                            <div class="metric-value">✓</div>
+                        </div>
+                    </div>
+                    <div class="insight-box positive">
+                        <strong>Data:</strong> Core 3 together in 9,460 min @ +14.3 Net. Bell adds +16.2 pairing with Wilson. Championship-proven.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Defensive Lockdown -->
+            <div class="lineup-card defensive">
+                <div class="card-header">
+                    <h3>Defensive Lockdown</h3>
+                    <div class="net-rating">+12.8</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">🛡️ Protect lead 10-20+, vs elite shooters</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson (-9.8)</span>
+                        <span class="player-chip star">Young (-8.2)</span>
+                        <span class="player-chip defensive">Bell (-8.5)</span>
+                        <span class="player-chip">Smith</span>
+                        <span class="player-chip">Loyd</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">106.4</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">94.6</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Def Diff</div>
+                            <div class="metric-value">-26.5</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">Gray Out</div>
+                            <div class="metric-value">✓</div>
+                        </div>
+                    </div>
+                    <div class="insight-box positive">
+                        <strong>Surprise:</strong> Bell is #2 defensive player (-8.5 diff)! Removes Gray's +6.5 defensive liability. Elite lockdown unit.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Offensive Firepower -->
+            <div class="lineup-card offensive">
+                <div class="card-header">
+                    <h3>Offensive Firepower</h3>
+                    <div class="net-rating">+11.7</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">⚡ Trailing 5-10+, need scoring burst</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson (+19.6)</span>
+                        <span class="player-chip star">Young (+14.3)</span>
+                        <span class="player-chip star">Gray (+19.6)</span>
+                        <span class="player-chip">Loyd</span>
+                        <span class="player-chip">Evans</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">113.8</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">102.1</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Ast Pts Diff</div>
+                            <div class="metric-value">+51.0</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">Loyd+Wil</div>
+                            <div class="metric-value">16.7K</div>
+                        </div>
+                    </div>
+                    <div class="insight-box positive">
+                        <strong>Data:</strong> Gray (+16.3) + Young (+15.2) + Wilson (+19.5) = +51 Assist Points differential. Wilson stabilizes Evans (+10.6).
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Twin Towers -->
+            <div class="lineup-card twinTowers">
+                <div class="card-header">
+                    <h3>Twin Towers</h3>
+                    <div class="net-rating">+12.7</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">🏔️ vs Size (MIN, NYL) | Paint Dominance</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson</span>
+                        <span class="player-chip">Smith</span>
+                        <span class="player-chip star">Young</span>
+                        <span class="player-chip star">Gray</span>
+                        <span class="player-chip defensive">Bell</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">114.2</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">101.5</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Wil+Smi</div>
+                            <div class="metric-value">9,920</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">OReb Diff</div>
+                            <div class="metric-value">+5%</div>
+                        </div>
+                    </div>
+                    <div class="insight-box positive">
+                        <strong>Data:</strong> Wilson + Smith = +12.7 Net in 9,920 minutes. At Rim FG%: +15% with Wilson on court. Dominate the paint.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Row: Two More Cards -->
+        <div class="fifth-card-container">
+            <div class="lineup-card smallBall">
+                <div class="card-header">
+                    <h3>Small Ball Blitz</h3>
+                    <div class="net-rating">+11.6</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">🏃 vs Small Ball | Push Pace</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson (at 5)</span>
+                        <span class="player-chip star">Young</span>
+                        <span class="player-chip star">Gray</span>
+                        <span class="player-chip">Loyd (+2.4 pace)</span>
+                        <span class="player-chip defensive">Bell</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">113.8</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">102.1</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Loyd+Wil</div>
+                            <div class="metric-value">+11.7</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">Gray+Bell</div>
+                            <div class="metric-value">+11.6</div>
+                        </div>
+                    </div>
+                    <div class="insight-box">
+                        <strong>Data:</strong> Loyd pushes pace (+2.4 differential). Gray creates for Bell (+11.6 pairing). Switch everything with Wilson at 5.
+                    </div>
+                </div>
+            </div>
+
+            <div class="lineup-card pace">
+                <div class="card-header">
+                    <h3>Pace Push</h3>
+                    <div class="net-rating">+14.2</div>
+                </div>
+                <div class="card-body">
+                    <div class="usage-tag">🚀 Quick Scoring | Young Anchors Nye</div>
+                    <div class="players-list">
+                        <span class="player-chip star">Wilson (+1.9)</span>
+                        <span class="player-chip star">Young</span>
+                        <span class="player-chip">Loyd (+2.4)</span>
+                        <span class="player-chip">Nye (+1.3)</span>
+                        <span class="player-chip">Smith</span>
+                    </div>
+                    <div class="metrics-row">
+                        <div class="metric-box offense">
+                            <div class="metric-label">ORtg</div>
+                            <div class="metric-value">112.5</div>
+                        </div>
+                        <div class="metric-box defense">
+                            <div class="metric-label">DRtg</div>
+                            <div class="metric-value">98.3</div>
+                        </div>
+                        <div class="metric-box sample">
+                            <div class="metric-label">Yng+Nye</div>
+                            <div class="metric-value">6,460</div>
+                        </div>
+                        <div class="metric-box minutes">
+                            <div class="metric-label">Pace Diff</div>
+                            <div class="metric-value">+5.6</div>
+                        </div>
+                    </div>
+                    <div class="insight-box warning">
+                        <strong>Key:</strong> Young + Nye = +14.2 Net (Young covers Nye defensively). Removes Gray's pace-slowing effect (-1.3). Use to create transition.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Las Vegas Aces 2025 | Data Source: pbpstats.com API | ⭐ = Core 3 | 🛡️ = Top Defensive Impact | All ratings per 100 possessions
+        </div>
+    </div>
+
+    <!-- Page 2: Critical Rules & Avoid Combinations -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>🚨 Critical Lineup Rules & Combinations to Avoid</h1>
+                <div class="subtitle">Data-Driven Decisions | pbpstats.com 2025 Regular Season</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="data-badge">📊 8,320+ MIN SAMPLE</div>
+            </div>
+        </div>
+
+        <!-- Never Play Together Section -->
+        <div style="margin-bottom: 20px;">
+            <h2 style="color: #C8102E; margin-bottom: 10px; font-size: 16px;">🚫 NEVER PLAY TOGETHER</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div style="background: #fee2e2; border: 2px solid #dc2626; border-radius: 12px; padding: 15px;">
+                    <div style="font-weight: 700; color: #991b1b; font-size: 14px;">Evans + Nye = -12.2 Net Rating</div>
+                    <div style="font-size: 12px; color: #7f1d1d; margin-top: 5px;">
+                        <strong>8,320 minutes</strong> of proof | ORtg: 92.5 | DRtg: 104.7
+                    </div>
+                    <div style="font-size: 11px; color: #991b1b; margin-top: 8px; padding: 8px; background: white; border-radius: 6px;">
+                        ⚠️ Team scores 20 fewer points per 100 possessions. Destroys ball movement (-12.2 assist pts) and creates defensive holes. <strong>NO EXCEPTIONS.</strong>
+                    </div>
+                </div>
+                <div style="background: #fee2e2; border: 2px solid #dc2626; border-radius: 12px; padding: 15px;">
+                    <div style="font-weight: 700; color: #991b1b; font-size: 14px;">Bell + Nye = -15.4 Net Rating</div>
+                    <div style="font-size: 12px; color: #7f1d1d; margin-top: 5px;">
+                        <strong>2,546 minutes</strong> of proof | ORtg: <strong>83.8</strong> | DRtg: 99.2
+                    </div>
+                    <div style="font-size: 11px; color: #991b1b; margin-top: 8px; padding: 8px; background: white; border-radius: 6px;">
+                        ⚠️ "Spacing Illusion" - both shoot 3s at elite rates but convert at league-worst levels. 83.8 ORtg is catastrophic. <strong>NO EXCEPTIONS.</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avoid Zone -->
+        <div style="margin-bottom: 20px;">
+            <h2 style="color: #ea580c; margin-bottom: 10px; font-size: 16px;">⚠️ AVOID ZONE (Maximum 4-6 Minutes Together)</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                <div style="background: #fff7ed; border: 1px solid #ea580c; border-radius: 8px; padding: 10px;">
+                    <div style="font-weight: 600; font-size: 12px;">Gray + Evans</div>
+                    <div style="color: #c2410c; font-size: 14px; font-weight: 700;">-1.3 Net</div>
+                    <div style="font-size: 10px; color: #9a3412;">Turnover cascade risk</div>
+                </div>
+                <div style="background: #fff7ed; border: 1px solid #ea580c; border-radius: 8px; padding: 10px;">
+                    <div style="font-weight: 600; font-size: 12px;">Evans + Bell</div>
+                    <div style="color: #c2410c; font-size: 14px; font-weight: 700;">-2.1 Net</div>
+                    <div style="font-size: 10px; color: #9a3412;">90.9 ORtg = offense dies</div>
+                </div>
+                <div style="background: #fff7ed; border: 1px solid #ea580c; border-radius: 8px; padding: 10px;">
+                    <div style="font-weight: 600; font-size: 12px;">Smith + Nye</div>
+                    <div style="color: #c2410c; font-size: 14px; font-weight: 700;">-6.4 Net</div>
+                    <div style="font-size: 10px; color: #9a3412;">Zero creation between them</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Worst Trios -->
+        <div style="margin-bottom: 20px;">
+            <h2 style="color: #dc2626; margin-bottom: 10px; font-size: 16px;">🔻 WORST THREE-PLAYER COMBINATIONS</h2>
+            <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                <thead style="background: #fee2e2;">
+                    <tr>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #dc2626;">Trio</th>
+                        <th style="padding: 8px; text-align: center; border-bottom: 2px solid #dc2626;">Net Rtg</th>
+                        <th style="padding: 8px; text-align: center; border-bottom: 2px solid #dc2626;">ORtg</th>
+                        <th style="padding: 8px; text-align: center; border-bottom: 2px solid #dc2626;">Minutes</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #dc2626;">Why It Fails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #fef2f2;">
+                        <td style="padding: 6px;">Loyd + Bell + Nye</td>
+                        <td style="padding: 6px; text-align: center; color: #dc2626; font-weight: 700;">-32.3</td>
+                        <td style="padding: 6px; text-align: center;">81.1</td>
+                        <td style="padding: 6px; text-align: center;">333</td>
+                        <td style="padding: 6px;">No creation, no defense, no hope</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Gray + Evans + Nye</td>
+                        <td style="padding: 6px; text-align: center; color: #dc2626; font-weight: 700;">-22.0</td>
+                        <td style="padding: 6px; text-align: center;">99.0</td>
+                        <td style="padding: 6px; text-align: center;">1,630</td>
+                        <td style="padding: 6px;">121.0 DRtg = defensive disaster</td>
+                    </tr>
+                    <tr style="background: #fef2f2;">
+                        <td style="padding: 6px;">Evans + Bell + Nye</td>
+                        <td style="padding: 6px; text-align: center; color: #dc2626; font-weight: 700;">-20.1</td>
+                        <td style="padding: 6px; text-align: center;">78.9</td>
+                        <td style="padding: 6px; text-align: center;">1,050</td>
+                        <td style="padding: 6px;">78.9 ORtg = worst in league</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Loyd + Smith + Nye</td>
+                        <td style="padding: 6px; text-align: center; color: #dc2626; font-weight: 700;">-17.5</td>
+                        <td style="padding: 6px; text-align: center;">89.8</td>
+                        <td style="padding: 6px; text-align: center;">576</td>
+                        <td style="padding: 6px;">No playmaking whatsoever</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Key Rules Summary -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: #dcfce7; border: 2px solid #22c55e; border-radius: 12px; padding: 15px;">
+                <h3 style="color: #166534; font-size: 14px; margin-bottom: 10px;">✅ ALWAYS DO</h3>
+                <ul style="font-size: 11px; color: #166534; padding-left: 15px;">
+                    <li style="margin-bottom: 5px;"><strong>Wilson + Young in clutch</strong> (+13.6 Net, 22,260 min)</li>
+                    <li style="margin-bottom: 5px;"><strong>Core 3 for 28-30 MPG</strong> (+14.3 Net, 9,460 min)</li>
+                    <li style="margin-bottom: 5px;"><strong>Bell in defensive lineups</strong> (-8.5 def diff!)</li>
+                    <li style="margin-bottom: 5px;"><strong>Wilson to stabilize weak players</strong></li>
+                    <li><strong>Gray + Loyd for ball security</strong></li>
+                </ul>
+            </div>
+            <div style="background: #fee2e2; border: 2px solid #dc2626; border-radius: 12px; padding: 15px;">
+                <h3 style="color: #991b1b; font-size: 14px; margin-bottom: 10px;">❌ NEVER DO</h3>
+                <ul style="font-size: 11px; color: #991b1b; padding-left: 15px;">
+                    <li style="margin-bottom: 5px;"><strong>Evans + Nye together</strong> (-12.2 Net, 8,320 min)</li>
+                    <li style="margin-bottom: 5px;"><strong>Bell + Nye together</strong> (-15.4 Net, 83.8 ORtg)</li>
+                    <li style="margin-bottom: 5px;"><strong>Any trio with 2+ of Evans/Bell/Nye</strong></li>
+                    <li style="margin-bottom: 5px;"><strong>Gray + Evans in close games</strong></li>
+                    <li><strong>Bench groups without Wilson/Young anchor</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            Las Vegas Aces 2025 | Data Source: pbpstats.com API | All combinations with 100+ minutes sample size
+        </div>
+    </div>
+</body>
+</html>

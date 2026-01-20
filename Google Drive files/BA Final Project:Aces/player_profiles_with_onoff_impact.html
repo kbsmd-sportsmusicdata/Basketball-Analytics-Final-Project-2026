@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Vegas Aces - Player Profiles with On/Off Impact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .page {
+            width: 10in;
+            min-height: 7.5in;
+            background: white;
+            margin: 0 auto 40px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            page-break-after: always;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C8102E 0%, #8B0000 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 10px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+        
+        .data-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 9px;
+        }
+        
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .player-profile {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .profile-header {
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .profile-header.elite {
+            background: linear-gradient(135deg, #C8102E 0%, #8B0000 100%);
+            color: white;
+        }
+        
+        .profile-header.key {
+            background: linear-gradient(135deg, #FDB927 0%, #E5A520 100%);
+            color: #333;
+        }
+        
+        .profile-header.contributor {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .profile-header.role {
+            background: #adb5bd;
+            color: #333;
+        }
+        
+        .player-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .player-meta {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .player-archetype {
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .profile-header.key .player-archetype {
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .profile-body {
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .stats-column {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .section-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+        }
+        
+        .stat-label {
+            width: 55px;
+            color: #666;
+        }
+        
+        .stat-bar-container {
+            flex: 1;
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .stat-bar {
+            height: 100%;
+            border-radius: 6px;
+        }
+        
+        .stat-bar.elite { background: linear-gradient(90deg, #22c55e, #16a34a); }
+        .stat-bar.above { background: linear-gradient(90deg, #84cc16, #65a30d); }
+        .stat-bar.average { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .stat-bar.below { background: linear-gradient(90deg, #fb923c, #ea580c); }
+        .stat-bar.weakness { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        
+        .stat-value {
+            width: 32px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 9px;
+        }
+        
+        .stat-value.elite { color: #16a34a; }
+        .stat-value.above { color: #65a30d; }
+        .stat-value.average { color: #f59e0b; }
+        .stat-value.below { color: #ea580c; }
+        .stat-value.weakness { color: #dc2626; }
+        
+        /* On/Off Impact Styling */
+        .impact-section {
+            margin-top: 6px;
+        }
+        
+        .impact-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 9px;
+            margin-bottom: 3px;
+        }
+        
+        .impact-label {
+            width: 50px;
+            color: #666;
+        }
+        
+        .impact-bar-container {
+            flex: 1;
+            height: 14px;
+            background: #f0f0f0;
+            border-radius: 7px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .impact-bar-center {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #999;
+        }
+        
+        .impact-bar {
+            position: absolute;
+            top: 2px;
+            bottom: 2px;
+            border-radius: 5px;
+        }
+        
+        .impact-bar.positive {
+            left: 50%;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+        }
+        
+        .impact-bar.negative {
+            right: 50%;
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+        }
+        
+        .impact-value {
+            width: 38px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 9px;
+        }
+        
+        .impact-value.positive { color: #16a34a; }
+        .impact-value.negative { color: #dc2626; }
+        
+        .profile-footer {
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+        }
+        
+        .net-impact {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .net-impact.positive { color: #16a34a; }
+        .net-impact.negative { color: #dc2626; }
+        
+        .role-tags {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .role-tag {
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 600;
+        }
+        
+        .role-tag.offense { background: #dcfce7; color: #166534; }
+        .role-tag.defense { background: #dbeafe; color: #1e40af; }
+        .role-tag.pace { background: #fef3c7; color: #92400e; }
+        .role-tag.negative { background: #fee2e2; color: #991b1b; }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .page { box-shadow: none; margin: 0; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Elite & Key Players -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>🏀 Player Profiles with On/Off Impact</h1>
+                <div class="subtitle">Positional Percentiles + pbpstats On/Off Differentials</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="data-badge">📊 PBPSTATS VERIFIED</div>
+                <div class="subtitle" style="margin-top: 4px;">Las Vegas Aces 2025</div>
+            </div>
+        </div>
+        
+        <div class="profiles-grid">
+            <!-- A'ja Wilson -->
+            <div class="player-profile">
+                <div class="profile-header elite">
+                    <div>
+                        <div class="player-name">A'ja Wilson</div>
+                        <div class="player-meta">C | 8 yrs | 32.3 MPG</div>
+                    </div>
+                    <div class="player-archetype">Generational Talent</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 100%"></div></div>
+                            <span class="stat-value elite">100th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Win Shares</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 100%"></div></div>
+                            <span class="stat-value elite">100th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 89%"></div></div>
+                            <span class="stat-value above">89th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST% (C)</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 100%"></div></div>
+                            <span class="stat-value elite">100th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 95%"></div></div>
+                            <span class="stat-value elite">95th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Def Rtg</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 94%"></div></div>
+                            <span class="stat-value elite">94th</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 39%"></div>
+                            </div>
+                            <span class="impact-value positive">+19.6</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 20%"></div>
+                            </div>
+                            <span class="impact-value positive">-9.8</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 39%"></div>
+                            </div>
+                            <span class="impact-value positive">+19.5</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">TOV</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 10%"></div>
+                            </div>
+                            <span class="impact-value positive">-5.2</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Rim FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 30%"></div>
+                            </div>
+                            <span class="impact-value positive">+15%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 8%"></div>
+                            </div>
+                            <span class="impact-value positive">+1.9</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <div>Total Impact: <span class="net-impact positive">+29.4</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag offense">Elite Creator</span>
+                        <span class="role-tag defense">Elite Anchor</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Jackie Young -->
+            <div class="player-profile">
+                <div class="profile-header elite">
+                    <div>
+                        <div class="player-name">Jackie Young</div>
+                        <div class="player-meta">G | 7 yrs | 31.4 MPG</div>
+                    </div>
+                    <div class="player-archetype">Elite Two-Way Star</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 100%"></div></div>
+                            <span class="stat-value elite">100th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Win Shares</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 98%"></div></div>
+                            <span class="stat-value elite">98th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 94%"></div></div>
+                            <span class="stat-value elite">94th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 85%"></div></div>
+                            <span class="stat-value above">85th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">FT%</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 91%"></div></div>
+                            <span class="stat-value elite">91st</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TREB%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 81%"></div></div>
+                            <span class="stat-value above">81st</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 29%"></div>
+                            </div>
+                            <span class="impact-value positive">+14.3</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 16%"></div>
+                            </div>
+                            <span class="impact-value positive">-8.2</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 30%"></div>
+                            </div>
+                            <span class="impact-value positive">+15.2</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">TOV</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 5%"></div>
+                            </div>
+                            <span class="impact-value positive">-2.3</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Rim FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 28%"></div>
+                            </div>
+                            <span class="impact-value positive">+14%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 1%"></div>
+                            </div>
+                            <span class="impact-value" style="color: #666;">+0.1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <div>Total Impact: <span class="net-impact positive">+22.5</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag offense">Elite Creator</span>
+                        <span class="role-tag defense">Elite Defender</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chelsea Gray -->
+            <div class="player-profile">
+                <div class="profile-header key">
+                    <div>
+                        <div class="player-name">Chelsea Gray</div>
+                        <div class="player-meta">G | 11 yrs | 32.1 MPG</div>
+                    </div>
+                    <div class="player-archetype">Primary Ball Handler</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 89%"></div></div>
+                            <span class="stat-value above">89th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 82%"></div></div>
+                            <span class="stat-value above">82nd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Win Shares</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 76%"></div></div>
+                            <span class="stat-value above">76th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STL%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 80%"></div></div>
+                            <span class="stat-value above">80th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 16%"></div></div>
+                            <span class="stat-value weakness">16th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 67%"></div></div>
+                            <span class="stat-value average">67th</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 39%"></div>
+                            </div>
+                            <span class="impact-value positive">+19.6</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 13%"></div>
+                            </div>
+                            <span class="impact-value negative">+6.5 ⚠️</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 33%"></div>
+                            </div>
+                            <span class="impact-value positive">+16.3</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Mid FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 22%"></div>
+                            </div>
+                            <span class="impact-value positive">+11%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Rim FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 20%"></div>
+                            </div>
+                            <span class="impact-value positive">+10%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 5%"></div>
+                            </div>
+                            <span class="impact-value negative">-1.3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <div>Total Impact: <span class="net-impact positive">+13.1</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag offense">Elite Playmaker</span>
+                        <span class="role-tag negative">Def Liability</span>
+                        <span class="role-tag pace">Slows Pace</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NaLyssa Smith -->
+            <div class="player-profile">
+                <div class="profile-header key">
+                    <div>
+                        <div class="player-name">NaLyssa Smith</div>
+                        <div class="player-meta">F | 4 yrs | 22.8 MPG</div>
+                    </div>
+                    <div class="player-archetype">Paint Presence</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">BLK%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 75%"></div></div>
+                            <span class="stat-value above">75th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TREB%</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 61%"></div></div>
+                            <span class="stat-value average">61st</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 52%"></div></div>
+                            <span class="stat-value average">52nd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 4%"></div></div>
+                            <span class="stat-value weakness">4th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STL%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 13%"></div></div>
+                            <span class="stat-value weakness">13th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">FT%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 6%"></div></div>
+                            <span class="stat-value weakness">6th ⚠️</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 12%"></div>
+                            </div>
+                            <span class="impact-value positive">+6.0</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 4%"></div>
+                            </div>
+                            <span class="impact-value positive">-2.0</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 21%"></div>
+                            </div>
+                            <span class="impact-value positive">+10.6</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">TOV</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 3%"></div>
+                            </div>
+                            <span class="impact-value positive">-1.6</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Mid FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 10%"></div>
+                            </div>
+                            <span class="impact-value positive">+5%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 15%"></div>
+                            </div>
+                            <span class="impact-value negative">-3.8 ⚠️</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <div>Total Impact: <span class="net-impact positive">+8.0</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag offense">Positive</span>
+                        <span class="role-tag defense">Positive</span>
+                        <span class="role-tag negative">Major Pace Slower</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color" style="background: #22c55e;"></div> Elite (90th+)</div>
+            <div class="legend-item"><div class="legend-color" style="background: #84cc16;"></div> Above (75-89)</div>
+            <div class="legend-item"><div class="legend-color" style="background: #fbbf24;"></div> Average (50-74)</div>
+            <div class="legend-item"><div class="legend-color" style="background: #fb923c;"></div> Below (25-49)</div>
+            <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Weakness (<25)</div>
+            <div class="legend-item" style="margin-left: 20px;">|</div>
+            <div class="legend-item"><div class="legend-color" style="background: #22c55e;"></div> Positive Impact</div>
+            <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Negative Impact</div>
+        </div>
+        
+        <div class="footer">
+            Las Vegas Aces 2025 | Percentiles: Weighted Positional | On/Off: pbpstats.com | Page 1 of 2
+        </div>
+    </div>
+    
+    <!-- Page 2: Contributors & Role Players -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>🏀 Player Profiles with On/Off Impact</h1>
+                <div class="subtitle">Contributors & Role Players | Key Surprises Highlighted</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="data-badge">📊 PBPSTATS VERIFIED</div>
+                <div class="subtitle" style="margin-top: 4px;">Las Vegas Aces 2025</div>
+            </div>
+        </div>
+        
+        <div class="profiles-grid">
+            <!-- Jewell Loyd -->
+            <div class="player-profile">
+                <div class="profile-header contributor">
+                    <div>
+                        <div class="player-name">Jewell Loyd</div>
+                        <div class="player-meta">G | 11 yrs | 28.6 MPG</div>
+                    </div>
+                    <div class="player-archetype">Ball Security Specialist</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 93%"></div></div>
+                            <span class="stat-value elite">93rd ★</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">3PT Rate</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 83%"></div></div>
+                            <span class="stat-value above">83rd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STL%</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 69%"></div></div>
+                            <span class="stat-value average">69th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 53%"></div></div>
+                            <span class="stat-value average">53rd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar below" style="width: 49%"></div></div>
+                            <span class="stat-value below">49th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 18%"></div></div>
+                            <span class="stat-value weakness">18th ⚠️</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 9%"></div>
+                            </div>
+                            <span class="impact-value positive">+4.4</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 4%"></div>
+                            </div>
+                            <span class="impact-value negative">+2.0</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 2%"></div>
+                            </div>
+                            <span class="impact-value" style="color: #666;">-0.8</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">TOV</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 2%"></div>
+                            </div>
+                            <span class="impact-value positive">-0.9</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">3PT FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 8%"></div>
+                            </div>
+                            <span class="impact-value positive">+4%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 10%"></div>
+                            </div>
+                            <span class="impact-value positive">+2.4 ★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <div>Total Impact: <span class="net-impact positive">+2.4</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag offense">Neutral</span>
+                        <span class="role-tag negative">Slight Neg Def</span>
+                        <span class="role-tag pace">Pace Pusher</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kierstan Bell - SURPRISE DEFENSIVE STAR -->
+            <div class="player-profile" style="border-color: #3b82f6; border-width: 3px;">
+                <div class="profile-header contributor" style="background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);">
+                    <div>
+                        <div class="player-name">Kierstan Bell 🛡️</div>
+                        <div class="player-meta">G-F | 4 yrs | 11.8 MPG</div>
+                    </div>
+                    <div class="player-archetype" style="background: #22c55e; color: white;">SURPRISE: #2 Defender!</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 91%"></div></div>
+                            <span class="stat-value elite">91st ★</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">3PT Rate</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 93%"></div></div>
+                            <span class="stat-value elite">93rd ★</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 3%"></div></div>
+                            <span class="stat-value weakness">3rd ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 15%"></div></div>
+                            <span class="stat-value weakness">15th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 19%"></div></div>
+                            <span class="stat-value weakness">19th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TREB%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 22%"></div></div>
+                            <span class="stat-value weakness">22nd ⚠️</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 20%"></div>
+                            </div>
+                            <span class="impact-value negative">-10.1</span>
+                        </div>
+                        <div class="impact-row" style="background: #dbeafe; padding: 2px 4px; border-radius: 4px;">
+                            <span class="impact-label" style="font-weight: 700;">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 17%"></div>
+                            </div>
+                            <span class="impact-value positive" style="font-size: 11px;">-8.5 ★★</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 1%"></div>
+                            </div>
+                            <span class="impact-value" style="color: #666;">+0.1</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">TOV</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 3%"></div>
+                            </div>
+                            <span class="impact-value negative">+1.3</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">3PT FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 14%"></div>
+                            </div>
+                            <span class="impact-value negative">-7%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 5%"></div>
+                            </div>
+                            <span class="impact-value negative">-1.3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer" style="background: #dbeafe;">
+                    <div>Total Impact: <span class="net-impact negative">-1.6</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag negative">Off Negative</span>
+                        <span class="role-tag defense" style="background: #22c55e; color: white;">ELITE DEFENDER</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dana Evans -->
+            <div class="player-profile" style="border-color: #dc2626;">
+                <div class="profile-header role">
+                    <div>
+                        <div class="player-name">Dana Evans</div>
+                        <div class="player-meta">G | 5 yrs | 18.2 MPG</div>
+                    </div>
+                    <div class="player-archetype" style="background: #fee2e2; color: #991b1b;">⚠️ Major Negative</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar above" style="width: 82%"></div></div>
+                            <span class="stat-value above">82nd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar below" style="width: 45%"></div></div>
+                            <span class="stat-value below">45th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar below" style="width: 27%"></div></div>
+                            <span class="stat-value below">27th</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 19%"></div></div>
+                            <span class="stat-value weakness">19th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TREB%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 4%"></div></div>
+                            <span class="stat-value weakness">4th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STL%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 7%"></div></div>
+                            <span class="stat-value weakness">7th ⚠️</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row" style="background: #fee2e2; padding: 2px 4px; border-radius: 4px;">
+                            <span class="impact-label" style="font-weight: 700;">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 22%"></div>
+                            </div>
+                            <span class="impact-value negative">-11.1 ⚠️</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 2%"></div>
+                            </div>
+                            <span class="impact-value negative">+1.2</span>
+                        </div>
+                        <div class="impact-row" style="background: #fee2e2; padding: 2px 4px; border-radius: 4px;">
+                            <span class="impact-label" style="font-weight: 700;">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 24%"></div>
+                            </div>
+                            <span class="impact-value negative">-12.2 ⚠️</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Rim FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 24%"></div>
+                            </div>
+                            <span class="impact-value negative">-12%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">3PT FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 8%"></div>
+                            </div>
+                            <span class="impact-value negative">-4%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 5%"></div>
+                            </div>
+                            <span class="impact-value negative">-1.2</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer" style="background: #fee2e2;">
+                    <div>Total Impact: <span class="net-impact negative">-12.3</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag negative">Major Off Neg</span>
+                        <span class="role-tag negative">Destroys Ball Mvmt</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aaliyah Nye -->
+            <div class="player-profile" style="border-color: #dc2626;">
+                <div class="profile-header role">
+                    <div>
+                        <div class="player-name">Aaliyah Nye</div>
+                        <div class="player-meta">G-F | 1 yr | 13.8 MPG</div>
+                    </div>
+                    <div class="player-archetype" style="background: #fee2e2; color: #991b1b;">⚠️ Negative Impact</div>
+                </div>
+                <div class="profile-body">
+                    <div class="stats-column">
+                        <div class="section-label">Percentiles (vs Position)</div>
+                        <div class="stat-row">
+                            <span class="stat-label">3PT Rate</span>
+                            <div class="stat-bar-container"><div class="stat-bar elite" style="width: 98%"></div></div>
+                            <span class="stat-value elite">98th ★</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TOV%</span>
+                            <div class="stat-bar-container"><div class="stat-bar average" style="width: 72%"></div></div>
+                            <span class="stat-value average">72nd</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">TS%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 10%"></div></div>
+                            <span class="stat-value weakness">10th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AST%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 7%"></div></div>
+                            <span class="stat-value weakness">7th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PER</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 5%"></div></div>
+                            <span class="stat-value weakness">5th ⚠️</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STL%</span>
+                            <div class="stat-bar-container"><div class="stat-bar weakness" style="width: 4%"></div></div>
+                            <span class="stat-value weakness">4th ⚠️</span>
+                        </div>
+                    </div>
+                    <div class="stats-column">
+                        <div class="section-label">On/Off Impact (per 100 poss)</div>
+                        <div class="impact-row">
+                            <span class="impact-label">Offense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 15%"></div>
+                            </div>
+                            <span class="impact-value negative">-7.3</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Defense</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 7%"></div>
+                            </div>
+                            <span class="impact-value negative">+3.4</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Ast Pts</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 20%"></div>
+                            </div>
+                            <span class="impact-value negative">-9.8</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">3PT FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 10%"></div>
+                            </div>
+                            <span class="impact-value negative">-5%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Rim FG%</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar negative" style="width: 6%"></div>
+                            </div>
+                            <span class="impact-value negative">-3%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span class="impact-label">Pace</span>
+                            <div class="impact-bar-container">
+                                <div class="impact-bar-center"></div>
+                                <div class="impact-bar positive" style="width: 5%"></div>
+                            </div>
+                            <span class="impact-value positive">+1.3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer" style="background: #fee2e2;">
+                    <div>Total Impact: <span class="net-impact negative">-10.6</span></div>
+                    <div class="role-tags">
+                        <span class="role-tag negative">Negative Both Ends</span>
+                        <span class="role-tag pace">Pushes Pace</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Critical Pairing Warning -->
+        <div style="margin-top: 15px; background: #fee2e2; border: 2px solid #dc2626; border-radius: 10px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700; color: #991b1b; font-size: 14px;">🚨 CRITICAL: Evans + Nye = -12.2 Net Rating (8,320 minutes)</div>
+                    <div style="font-size: 11px; color: #7f1d1d; margin-top: 4px;">NEVER play together. Both destroy ball movement (-12.2 and -9.8 assist pts). Combined -22.9 total impact.</div>
+                </div>
+                <div style="text-align: center; padding: 8px 15px; background: #dc2626; color: white; border-radius: 8px; font-weight: 700;">
+                    NEVER
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Las Vegas Aces 2025 | Percentiles: Weighted Positional | On/Off: pbpstats.com | Page 2 of 2
+        </div>
+    </div>
+</body>
+</html>

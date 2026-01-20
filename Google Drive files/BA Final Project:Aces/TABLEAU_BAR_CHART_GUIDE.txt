@@ -1,0 +1,292 @@
+═══════════════════════════════════════════════════════════════
+TABLEAU BAR CHART - STATISTICAL PROFILE
+Step-by-Step Build Guide (15 minutes)
+═══════════════════════════════════════════════════════════════
+
+GOAL: Create a horizontal bar chart showing 6-8 key metrics for each player
+
+FINAL LOOK (Mockup):
+┌────────────────────────────────────────────────────────────┐
+│  A'ja Wilson - Statistical Profile                         │
+│  Efficient Big | Forward | 8 Years Experience              │
+├────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Star Rating (96.0)     ████████████████████░ 96th %ile   │
+│  Two-Way Rating (11.1)  ████████████░░░░░░░░░ 75th %ile   │
+│  TS% (58.3%)            ███████████████░░░░░░ 87th %ile   │
+│  Usage% (31.4%)         ████████████████████░ 100th %ile  │
+│  Off Impact (+19.6)     ████████████████████░ 100th %ile  │
+│  Def Impact (+9.8)      ████████████████████░ 100th %ile  │
+│  Efficiency Score (18.3)████████████████████░ 100th %ile  │
+│                                                             │
+│  Reference line (50th percentile) shown as dashed line     │
+└────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+STEP 1: CONNECT DATA (2 minutes)
+═══════════════════════════════════════════════════════════════
+
+1. Open Tableau Desktop
+2. Connect → Text file → aces_player_profiles_final_2025.csv
+3. Verify data preview looks correct (8 rows, 66 columns)
+4. Click "Sheet 1" tab at bottom
+
+═══════════════════════════════════════════════════════════════
+STEP 2: ADD PLAYER FILTER (1 minute)
+═══════════════════════════════════════════════════════════════
+
+1. Drag [player_name] from Data pane to Filters shelf
+2. Select "A'ja Wilson" (or any player to start)
+3. Click OK
+4. Right-click filter → Show Filter (makes it visible on right side)
+5. Change filter type to "Single Value (dropdown)"
+
+═══════════════════════════════════════════════════════════════
+STEP 3: CREATE THE BARS (5 minutes)
+═══════════════════════════════════════════════════════════════
+
+METHOD A: Simple Stacked Approach
+──────────────────────────────────
+
+1. Drag these measures to ROWS (one at a time, in order):
+   
+   ✓ star_rating
+   ✓ two_way_rating  
+   ✓ TS%
+   ✓ USG%
+   ✓ offensive_impact
+   ✓ defensive_impact
+   ✓ efficiency_score
+
+2. You'll see 7 separate bar charts stacked vertically
+
+3. Right-click each pill in Rows → Measure → Sum
+
+4. Drag ALL pills from Rows to Columns (select all, drag together)
+
+5. Now you have horizontal bars!
+
+
+METHOD B: Using Measure Names (Cleaner)
+────────────────────────────────────────
+
+1. Create a calculated field "Metric Label":
+   
+   [Measure Names]
+
+2. Drag [Measure Values] to Columns
+
+3. Drag [Measure Names] to Rows
+
+4. Filter [Measure Names] to only show:
+   - star_rating
+   - two_way_rating
+   - TS%
+   - USG%
+   - offensive_impact
+   - defensive_impact
+   - efficiency_score
+
+5. Right-click [Measure Names] in Rows → Sort → By Field
+   → Sort by: Manual, then drag to reorder
+
+═══════════════════════════════════════════════════════════════
+STEP 4: ADD PERCENTILE CONTEXT (3 minutes)
+═══════════════════════════════════════════════════════════════
+
+1. Make sure you've created percentile calculated fields first
+   (see TABLEAU_PERCENTILE_QUICK_REF.txt)
+
+2. Create a new calculated field "Metric Percentile Display":
+
+   CASE STR([Measure Names])
+       WHEN "star_rating" THEN [Star Rating Percentile]
+       WHEN "two_way_rating" THEN [Two-Way Rating Percentile]
+       WHEN "TS%" THEN [TS% Percentile]
+       WHEN "USG%" THEN [Usage% Percentile]
+       WHEN "offensive_impact" THEN [Offensive Impact Percentile]
+       WHEN "defensive_impact" THEN [Defensive Impact Percentile]
+       WHEN "efficiency_score" THEN [Efficiency Score Percentile]
+   END
+
+3. Drag [Metric Percentile Display] to Label
+
+4. Format: Right-click → Format → Numbers → Percentage (0 decimals)
+
+═══════════════════════════════════════════════════════════════
+STEP 5: ADD REFERENCE LINE (1 minute)
+═══════════════════════════════════════════════════════════════
+
+1. Click Analytics tab (next to Data tab)
+
+2. Drag "Reference Line" onto your chart
+
+3. Select scope: "Per Cell"
+
+4. Configure:
+   - Value: Constant → 50 (for metrics 0-100)
+   - Label: None or "Average"
+   - Line: Dashed, Gray
+   - Fill: None
+
+5. Click OK
+
+Note: You may need different reference lines for different scales
+(e.g., TS% uses 0-1 scale, star_rating uses 0-100 scale)
+
+═══════════════════════════════════════════════════════════════
+STEP 6: FORMAT FOR PORTFOLIO QUALITY (5 minutes)
+═══════════════════════════════════════════════════════════════
+
+COLORS:
+-------
+1. Click Color on Marks card
+2. Choose diverging color scheme:
+   - Low: #C8102E (Red)
+   - Mid: #FDB927 (Gold)  
+   - High: #13294B (Navy)
+   
+   OR use sequential:
+   - Light Gray → Navy Blue
+
+3. Click "Advanced" → Check "Reversed"
+
+LABELS:
+-------
+1. Click Label on Marks card
+2. Check "Show mark labels"
+3. Font: Arial, 10pt, Bold
+4. Alignment: Center
+5. Add fields:
+   - [Measure Values] (shows raw score)
+   - [Metric Percentile Display] (shows percentile)
+
+Format example: "96.0 (96th %ile)"
+
+TITLE:
+------
+1. Double-click chart title
+2. Type: <player_name>: Statistical Profile
+3. Click "Insert" → player_name (makes it dynamic)
+4. Add subtitle: <archetype> | <position> | <years_exp> Years
+
+Format: Arial Bold 16pt (title), Arial Regular 12pt (subtitle)
+
+AXES:
+-----
+1. Right-click X-axis → Edit Axis
+2. Title: "Value"
+3. Range: Automatic or Fixed (0 to max)
+4. Tick marks: Every 10 or 20 units
+
+5. Right-click Y-axis → Edit Axis
+6. Reverse axis order (so top metric shows first)
+
+GRIDLINES:
+----------
+1. Format → Lines → Grid Lines → Rows → None
+2. Format → Lines → Zero Lines → Keep visible
+
+BORDERS:
+--------
+1. Format → Borders
+2. Row Divider: Light gray, thin line
+3. Column Divider: None
+
+═══════════════════════════════════════════════════════════════
+STEP 7: ADD CUSTOM METRIC LABELS (2 minutes)
+═══════════════════════════════════════════════════════════════
+
+Create calculated field "Metric Label Display":
+
+CASE STR([Measure Names])
+    WHEN "star_rating" THEN "Star Rating (0-100)"
+    WHEN "two_way_rating" THEN "Two-Way Rating"
+    WHEN "TS%" THEN "True Shooting %"
+    WHEN "USG%" THEN "Usage Rate %"
+    WHEN "offensive_impact" THEN "Offensive Impact"
+    WHEN "defensive_impact" THEN "Defensive Impact"
+    WHEN "efficiency_score" THEN "Efficiency Score"
+END
+
+Drag to Rows (replace [Measure Names])
+
+═══════════════════════════════════════════════════════════════
+STEP 8: ADD TOOLTIP RICHNESS (2 minutes)
+═══════════════════════════════════════════════════════════════
+
+Click Tooltip on Marks card, customize to:
+
+┌────────────────────────────────────────┐
+│ <player_name>                          │
+│ <position> • <archetype>               │
+│ ────────────────────────────────────── │
+│ <Metric Label Display>                 │
+│ Value: <Measure Values> (formatted)    │
+│ Percentile: <Metric Percentile> (0%)   │
+│ ────────────────────────────────────── │
+│ Minutes/Game: <mpg>                    │
+│ Games: <games_count>                   │
+└────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+ALTERNATIVE: BULLET GRAPH VERSION (Professional Look)
+═══════════════════════════════════════════════════════════════
+
+For each metric, show:
+- Actual value (bar)
+- League average (reference line)
+- Percentile ranges (background shading)
+
+Steps:
+1. Duplicate [Measure Values] in Columns (Ctrl+drag)
+2. Right-click second pill → Dual Axis
+3. Synchronize axes
+4. First mark: Bar (actual value)
+5. Second mark: Circle (percentile position)
+6. Add reference distribution:
+   - 25th percentile band (light gray)
+   - 50th percentile line (medium gray)
+   - 75th percentile band (light gray)
+
+═══════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+Problem: Bars show wrong values
+Solution: Right-click measure pill → Measure → Sum (not Average)
+
+Problem: Percentiles show as 0.87 instead of 87%
+Solution: Format → Numbers → Percentage → 0 decimals
+
+Problem: Metrics on different scales (TS% is 0.58, star_rating is 96)
+Solution: Normalize or create separate axes with "Allow independent axis ranges"
+
+Problem: Filter doesn't update chart
+Solution: Make sure filter is set to "Apply to Worksheets" → "Selected worksheets"
+
+Problem: Reference line in wrong place
+Solution: Check if metric is on 0-1 scale (TS%) vs 0-100 scale (star_rating)
+
+═══════════════════════════════════════════════════════════════
+FINAL CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+□ Data connected successfully
+□ Player filter working (dropdown visible)
+□ 6-8 key metrics displayed as horizontal bars
+□ Percentile ranks shown on labels or tooltip
+□ Reference line at median/average
+□ Colors follow consistent scheme
+□ Title is dynamic (<player_name>)
+□ Axes labeled clearly
+□ Gridlines removed or minimized
+□ Tooltip includes player context
+□ Chart fits on one screen (no scrolling)
+□ Exported as high-res image or PDF
+
+═══════════════════════════════════════════════════════════════
+NEXT: After building the bar chart, we'll create:
+- Dumbbell chart (On/Off impact comparison)
+- Scatter plot (Usage vs Efficiency quadrant)
+═══════════════════════════════════════════════════════════════
